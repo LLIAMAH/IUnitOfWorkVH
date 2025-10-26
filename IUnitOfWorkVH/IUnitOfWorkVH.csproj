@@ -10,7 +10,7 @@
     <Authors>Vasiliy Himchenko</Authors>
     <Company>Free Agent</Company>
     <Description>
-      Unit of work patter with base Repository for EFCore 9.0.
+      Unit of work pattern with base Repos (IRepBase/RepBase - get-only; IRep/Rep - get/add/remove) for EFCore 9.0.
     </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/LLIAMAH/IUnitOfWorkVH</RepositoryUrl>
