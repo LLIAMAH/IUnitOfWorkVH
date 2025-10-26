@@ -7,7 +7,7 @@ using ResultsVH.Interfaces;
 
 namespace IUnitOfWorkVH.Implementations
 {
-    public abstract class AbstractUnitOfWork<T> : IUnitOfWork where T : DbContext
+    public abstract class UnitOfWorkBaseAbstract<T> : IUnitOfWorkBase where T : DbContext
     {
         // ReSharper disable once UnassignedField.Global
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
