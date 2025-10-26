@@ -8,7 +8,7 @@ Define application or class library, which will extend the base of the implement
 
 ## Usage
 
-### Application context fdefinition base on DbContext 
+### Application context definition base on DbContext 
 
 ```
 using IUnitOfWorkVH;
@@ -25,7 +25,7 @@ public class ApplicationDbContext : DbContext
 }
 ```
 
-### Creete files with interfaces and repositories base on your entities
+### Create files with interfaces and repositories base on your entities
 ```
 using IUnitOfWorkVH;
 
