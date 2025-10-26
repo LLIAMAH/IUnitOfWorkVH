@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IUnitOfWorkVH.Implementations
 {
-    public class RepBase<T>(DbContext ctx) : IRepBase<T>
+    public class RepBase<TCtx, T>(TCtx ctx) : IRepBase<T>
         where T : class
+        where TCtx : DbContext
     {
-        protected readonly DbContext _ctx = ctx;
+        protected readonly TCtx _ctx = ctx;
         protected readonly DbSet<T> _dbSet = ctx.Set<T>();
 
         public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, string? include = null,
@@ -28,7 +29,9 @@ namespace IUnitOfWorkVH.Implementations
         }
     }
 
-    public class Rep<T>(DbContext ctx) : RepBase<T>(ctx), IRep<T> where T : class
+    public class Rep<TCtx, T>(TCtx ctx) : RepBase<TCtx, T>(ctx), IRep<T>
+        where T : class
+        where TCtx : DbContext
     {
         public void Add(T entity)
         {
