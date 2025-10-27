@@ -8,7 +8,7 @@ Define application or class library, which will extend the base of the implement
 
 ## Usage
 
-### Application context definition base on DbContext 
+1. Define application DB context definition base on DbContext 
 
 ```
 using IUnitOfWorkVH;
@@ -25,7 +25,7 @@ public class ApplicationDbContext : DbContext
 }
 ```
 
-### Create files with interfaces and repositories base on your entities
+2. Create files with interfaces and repositories base on your entities
 ```
 using IUnitOfWorkVH;
 
@@ -35,7 +35,7 @@ public interface IRepYourEntity1 : IRepBase<YourEntity1>
     // Define additional methods if needed
 }
 
-/// this repository will have Get/Add/Remove methods - perfect for general purpose entities
+/// this repository will have Get/Add/Remove methods - for general purpose entities
 public interface IRepYourEntity2 : IRep<YourEntity2>
 {
     // Define additional methods if needed
@@ -43,11 +43,11 @@ public interface IRepYourEntity2 : IRep<YourEntity2>
 
 ///.....
 
-public class RepYourEntity1(ApplicationDbContext context) : RepBase<YourEntity1>(context), IRepYourEntity1
-public class RepYourEntity2(ApplicationDbContext context) : RepBase<YourEntity2>(context), IRepYourEntity2
+public class RepYourEntity1(ApplicationDbContext context) : RepBase<ApplicationDbContext, YourEntity1>(context), IRepYourEntity1
+public class RepYourEntity2(ApplicationDbContext context) : RepBase<ApplicationDbContext, YourEntity2>(context), IRepYourEntity2
 ```
 
-### Define local interface IUnitOfWork and inherit from the IUnitOfWorkBase interface
+3. Define local interface IUnitOfWork and inherit from the IUnitOfWorkBase interface
 
 ```
 using IUnitOfWorkVH;
@@ -59,14 +59,14 @@ public interface IUnitOfWork : IUnitOfWorkBase<ApplicationDbContext>
 }
 ```
 
-### Create class UnitOfWork and inherit from the UnitOfWorkAbstract class and your local IUnitOfWork interface
+4. Create class UnitOfWork and inherit from the UnitOfWorkAbstract class and your local IUnitOfWork interface
 
-Dont forget initialize base._ctx and base._logger in the constructor
+Dont forget initialize base._ctx [Required] and base._logger [Optional] in the constructor
 
 ```
 public class UnitOfWork : UnitOfWorkAbstract<ApplicationDbContext>
 {
-    public UnitOfWork(ApplicationDbContext context, ILogger<UnitOfWork> logger) : base(context)
+    public UnitOfWork(ApplicationDbContext context, ILogger<ApplicationDbContext> logger) : base(context)
     {
         /// Required initializations
         this._logger = logger;

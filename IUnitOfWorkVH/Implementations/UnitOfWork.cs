@@ -15,9 +15,7 @@ namespace IUnitOfWorkVH.Implementations
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
         // ReSharper disable once UnassignedField.Global
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        protected ILogger<T> _logger;
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        protected ILogger<T>? _logger = null;
 
         public IDbContextTransaction BeginTransaction()
         {
@@ -28,7 +26,7 @@ namespace IUnitOfWorkVH.Implementations
         {
             try
             {
-                var result = await this._ctx.SaveChangesAsync(cancellationToken);
+                await this._ctx.SaveChangesAsync(cancellationToken);
                 return new ResultBool(true);
             }
             catch (Exception ex)
@@ -42,7 +40,7 @@ namespace IUnitOfWorkVH.Implementations
         {
             try
             {
-                var result = this._ctx.SaveChanges();
+                this._ctx.SaveChanges();
                 return new ResultBool(true);
             }
             catch (Exception ex)
@@ -54,6 +52,7 @@ namespace IUnitOfWorkVH.Implementations
 
         public void Dispose()
         {
+            this._logger = null;
             this._ctx?.Dispose();
         }
     }
