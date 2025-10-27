@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 
     <PackageId>IUnitOfWorkVH</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Vasiliy Himchenko</Authors>
     <Company>Free Agent</Company>
     <Description>
