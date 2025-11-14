@@ -1,16 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
     <PackageId>IUnitOfWorkVH</PackageId>
-    <Version>1.0.2</Version>
+    <Version>10.0.0</Version>
+    <AssemblyVersion>10.0.0.0</AssemblyVersion>
+    <FileVersion>10.0.0.0</FileVersion>
     <Authors>Vasiliy Himchenko</Authors>
     <Company>Free Agent</Company>
     <Description>
-      Unit of work pattern with base Repos (IRepBase/RepBase - get-only; IRep/Rep - get/add/remove) for EFCore 9.0.
+      Unit of work pattern with base Repos (IRepBase/RepBase - get-only; IRep/Rep - get/add/remove) for EFCore 10.0.
     </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/LLIAMAH/IUnitOfWorkVH</RepositoryUrl>
