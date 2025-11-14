@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using IUnitOfWorkVH.Interfaces;
 using IUnitOfWorkVH.Implementations;
+using Xunit;
 
 namespace IUnitOfWorkVH.Tests
 {
