@@ -3,6 +3,7 @@
 namespace IUnitOfWorkVH.Tests.Models
 {
     // ReSharper disable once ClassNeverInstantiated.Global
+    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class ShopItemType
     {
         public long Id { get; set; }
