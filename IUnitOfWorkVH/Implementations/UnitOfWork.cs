@@ -26,7 +26,10 @@ namespace IUnitOfWorkVH.Implementations
         {
             try
             {
+                await this.BeforeSaveAsync(cancellationToken);
                 await this._ctx.SaveChangesAsync(cancellationToken);
+                await this.AfterSaveAsync(cancellationToken);
+
                 return new ResultBool(true);
             }
             catch (Exception ex)
@@ -40,7 +43,10 @@ namespace IUnitOfWorkVH.Implementations
         {
             try
             {
+                this.BeforeSave();
                 this._ctx.SaveChanges();
+                this.AfterSave();
+
                 return new ResultBool(true);
             }
             catch (Exception ex)
@@ -50,10 +56,32 @@ namespace IUnitOfWorkVH.Implementations
             }
         }
 
+        #region Virtual Methods
+
+        protected virtual void BeforeSave() { }
+
+        protected virtual Task BeforeSaveAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual void AfterSave() { }
+
+        protected virtual Task AfterSaveAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
+
+        #endregion
+
+        #region IDisposable Support
+
         public void Dispose()
         {
             this._logger = null;
             this._ctx?.Dispose();
         }
+
+        #endregion
     }
 }
