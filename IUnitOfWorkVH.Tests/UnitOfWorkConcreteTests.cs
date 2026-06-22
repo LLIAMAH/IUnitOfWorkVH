@@ -1,12 +1,6 @@
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using ResultsVH.Interfaces;
-using Xunit;
-using IUnitOfWorkVH.Implementations;
-using IUnitOfWorkVH.Interfaces;
-using IUnitOfWorkVH.Tests.Models;
 using IUnitOfWorkVH.Tests.Concrete;
 
 namespace IUnitOfWorkVH.Tests
