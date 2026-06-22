@@ -135,6 +135,27 @@ public async Task<IResultBool> SaveChangesAsync(CancellationToken cancellationTo
 }
 ```
 
+In case you need override the default behavior of these functions - keep in mind, that **in minimal** implementation is required override only:
+* BeforeSave() and AfterSave()
+
+The async functions are calling the BeforeSave() and AfterSave() function by default - is was done to simplify overriding. 
+
+```
+#region Virtual Methods
+protected virtual void BeforeSave() { }
+protected virtual Task BeforeSaveAsync(CancellationToken cancellationToken = default)
+{
+    this.BeforeSave();
+    return Task.CompletedTask;
+}
+
+protected virtual void AfterSave() { }
+protected virtual Task AfterSaveAsync(CancellationToken cancellationToken = default)
+{
+    this.AfterSave();
+    return Task.CompletedTask;
+}
+#endregion
+```
+
 Don't forget to register the UnitOfWork class in the DI container of your application.
-
-

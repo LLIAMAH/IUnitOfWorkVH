@@ -62,6 +62,7 @@ namespace IUnitOfWorkVH.Implementations
 
         protected virtual Task BeforeSaveAsync(CancellationToken cancellationToken = default)
         {
+            this.BeforeSave();
             return Task.CompletedTask;
         }
 
@@ -69,6 +70,7 @@ namespace IUnitOfWorkVH.Implementations
 
         protected virtual Task AfterSaveAsync(CancellationToken cancellationToken = default)
         {
+            this.AfterSave();
             return Task.CompletedTask;
         }
 
