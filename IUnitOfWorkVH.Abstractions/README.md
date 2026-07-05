@@ -21,7 +21,7 @@ E.g:
 
 Lib uses:
 - ResultVH NuGet package for returning results from the functions.
-- Microsoft.EntityFrameworkCore.Relational 10.0 - for separate BeginTransaction() method.
+- Microsoft.EntityFrameworkCore.Relational 10.0 - cause of used IDbContextTransaction which needed for BeginTransaction() method.
 
 ## Content for Repositories
 
