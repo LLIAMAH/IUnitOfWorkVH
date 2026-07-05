@@ -22,6 +22,11 @@ public abstract class UnitOfWorkBaseAbstract<T> : IUnitOfWorkBase where T : DbCo
         return this._ctx.Database.BeginTransaction();
     }
 
+    public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        return this._ctx.Database.BeginTransactionAsync(cancellationToken);
+    }
+
     public async Task<IResultBool> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         try

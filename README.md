@@ -46,6 +46,7 @@ public interface IRep<T> : IRepBase<T> where T : class
 public interface IUnitOfWorkBase : IDisposable
 {
     IDbContextTransaction BeginTransaction();
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
     Task<IResultBool> SaveChangesAsync(CancellationToken cancellationToken = default);
     IResultBool SaveChanges();
 }
