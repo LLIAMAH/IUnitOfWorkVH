@@ -1,89 +1,93 @@
-﻿using IUnitOfWorkVH.Interfaces;
+﻿using IUnitOfWorkVH.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using ResultsVH.Implementations;
 using ResultsVH.Interfaces;
 
-namespace IUnitOfWorkVH.Implementations
+namespace IUnitOfWorkVH.Implementations;
+
+public abstract class UnitOfWorkBaseAbstract<T> : IUnitOfWorkBase where T : DbContext
 {
-    public abstract class UnitOfWorkBaseAbstract<T> : IUnitOfWorkBase where T : DbContext
-    {
-        // ReSharper disable once UnassignedField.Global
+    // ReSharper disable once UnassignedField.Global
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        protected T _ctx;
+    protected T _ctx;
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
-        // ReSharper disable once UnassignedField.Global
-        protected ILogger<T>? _logger = null;
+    // ReSharper disable once UnassignedField.Global
+    protected ILogger<T>? _logger = null;
 
-        public IDbContextTransaction BeginTransaction()
+    public IDbContextTransaction BeginTransaction()
+    {
+        return this._ctx.Database.BeginTransaction();
+    }
+
+    public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        return this._ctx.Database.BeginTransactionAsync(cancellationToken);
+    }
+
+    public async Task<IResultBool> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        try
         {
-            return this._ctx.Database.BeginTransaction();
-        }
+            await this.BeforeSaveAsync(cancellationToken);
+            await this._ctx.SaveChangesAsync(cancellationToken);
+            await this.AfterSaveAsync(cancellationToken);
 
-        public async Task<IResultBool> SaveChangesAsync(CancellationToken cancellationToken = default)
+            return new ResultBool(true);
+        }
+        catch (Exception ex)
         {
-            try
-            {
-                await this.BeforeSaveAsync(cancellationToken);
-                await this._ctx.SaveChangesAsync(cancellationToken);
-                await this.AfterSaveAsync(cancellationToken);
-
-                return new ResultBool(true);
-            }
-            catch (Exception ex)
-            {
-                this._logger?.LogError(ex, ex.Message);
-                return new ResultBool(ex.Message);
-            }
+            this._logger?.LogError(ex, ex.Message);
+            return new ResultBool(ex.Message);
         }
+    }
 
-        public IResultBool SaveChanges()
-        {
-            try
-            {
-                this.BeforeSave();
-                this._ctx.SaveChanges();
-                this.AfterSave();
-
-                return new ResultBool(true);
-            }
-            catch (Exception ex)
-            {
-                this._logger?.LogError(ex, ex.Message);
-                return new ResultBool(ex.Message);
-            }
-        }
-
-        #region Virtual Methods
-
-        protected virtual void BeforeSave() { }
-
-        protected virtual Task BeforeSaveAsync(CancellationToken cancellationToken = default)
+    public IResultBool SaveChanges()
+    {
+        try
         {
             this.BeforeSave();
-            return Task.CompletedTask;
-        }
-
-        protected virtual void AfterSave() { }
-
-        protected virtual Task AfterSaveAsync(CancellationToken cancellationToken = default)
-        {
+            this._ctx.SaveChanges();
             this.AfterSave();
-            return Task.CompletedTask;
+
+            return new ResultBool(true);
         }
-
-        #endregion
-
-        #region IDisposable Support
-
-        public void Dispose()
+        catch (Exception ex)
         {
-            this._logger = null;
-            this._ctx?.Dispose();
+            this._logger?.LogError(ex, ex.Message);
+            return new ResultBool(ex.Message);
         }
-
-        #endregion
     }
+
+    #region Virtual Methods
+
+    protected virtual void BeforeSave() { }
+
+    protected virtual Task BeforeSaveAsync(CancellationToken cancellationToken = default)
+    {
+        this.BeforeSave();
+        return Task.CompletedTask;
+    }
+
+    protected virtual void AfterSave() { }
+
+    protected virtual Task AfterSaveAsync(CancellationToken cancellationToken = default)
+    {
+        this.AfterSave();
+        return Task.CompletedTask;
+    }
+
+    #endregion
+
+    #region IDisposable Support
+
+    public void Dispose()
+    {
+        this._logger = null;
+        this._ctx?.Dispose();
+    }
+
+    #endregion
 }

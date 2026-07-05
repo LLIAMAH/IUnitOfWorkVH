@@ -1,4 +1,4 @@
-using IUnitOfWorkVH.Interfaces;
+using IUnitOfWorkVH.Abstractions;
 using IUnitOfWorkVH.Tests.Models;
 
 namespace IUnitOfWorkVH.Tests.Concrete
