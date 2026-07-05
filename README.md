@@ -1,8 +1,8 @@
-# IUnitOfWorkVH.Abstractions
+# IUnitOfWorkVH solution
 
-## Description
-
-This library is a set of interfaces that are needed to simplify the formation of Repository and Unit of Work patterns in client applications.
+Consist of 2 libraries: 
+- IUnitOfWorkVH.Abstractions - contains only interfaces that are needed to implement the Repository and Unit of Work patterns in the application.
+- IUnitOfWorkVH - contains the implementation of the Repository and Unit of Work patterns based on the interfaces from the IUnitOfWorkVH.Abstractions library.
 
 The basic project IUnitOfWorkVH been splitted to 2 separate libraries:
 - IUnitOfWorkVH.Abstractions - contains only interfaces that are needed to implement the Repository and Unit of Work patterns in the application.
@@ -17,13 +17,19 @@ E.g:
   - Infrastucture layer - ref to full IUnitOfWorkVH
   - etc.
 
-## References
+## IUnitOfWorkVH.Abstractions project
+
+### Description
+
+This library is a set of interfaces that are needed to simplify the formation of Repository and Unit of Work patterns in client applications.
+
+### References
 
 Lib uses:
 - ResultVH NuGet package for returning results from the functions.
 - Microsoft.EntityFrameworkCore.Relational 10.0 - cause of used IDbContextTransaction which needed for BeginTransaction() method.
 
-## Content for Repositories
+### Content for Repositories
 
 ```
 public interface IRepBase<T> where T : class
@@ -38,7 +44,7 @@ public interface IRep<T> : IRepBase<T> where T : class
 }
 ```
 
-## Content for UnitOfWork
+### Content for UnitOfWork
 
 ```
 public interface IUnitOfWorkBase : IDisposable
@@ -49,7 +55,7 @@ public interface IUnitOfWorkBase : IDisposable
 }
 ```
 
-## Usage
+### Usage
 
 1. Create local repository interfaces and classes based on your entities
 
@@ -88,21 +94,21 @@ public interface IUnitOfWork : IUnitOfWorkBase
 
 Don't forget to register the local IUnitOfWork interface in the DI container of your application.
 
-# IUnitOfWorkVH
+## IUnitOfWorkVH project
 
-## Description
+### Description
 
 Define application or class library, which will extend the base of the implemented Unit of Work pattern.
 The basic idea of this library is to provide a set of abstractions that can be used in the application to implement the Repository and Unit of Work patterns without having to write boilerplate code.
 
-## References
+### References
 
 Lib uses:
 - ResultVH NuGet package for returning results from the functions.
 - IUnitOfWorkVH.Abstractions - for base interfaces.
 - Microsoft.EntityFrameworkCore 10.0 - for EF core functionality.
 
-## Note
+### Note
 
 Repository pattern implementation in this lib been splitted on 2 separate interfaces:
 
@@ -123,7 +129,7 @@ It was done to simplify the implementation of repositories in the application in
 - Read only repositories can be implemented by using only the IRepBase<T> interface.
 - Read/Write repositories can be implemented by using the IRep<T> interface.
 
-## Usage
+### Usage
 
 1. Define application DB context definition base on DbContext 
 
@@ -219,7 +225,7 @@ public class UnitOfWork : UnitOfWorkAbstract<ApplicationDbContext>, IUnitOfWork
 
 6. Enjoy of use of the UnitOfWork class in your application.
 
-## Added few **protected virtual** methods for SaveChanges/SaveChangesAsync functions
+### Added few **protected virtual** methods for SaveChanges/SaveChangesAsync functions
 
 Added functions providing fluent Pre-/Postfix calls, which will allow to configure flexible calls before and after data saved in DB. 
 They are empty by default.
