@@ -3,14 +3,56 @@
 ## Description
 
 Define application or class library, which will extend the base of the implemented Unit of Work pattern.
+The basic idea of this library is to provide a set of abstractions that can be used in the application to implement the Repository and Unit of Work patterns without having to write boilerplate code.
 
-- Include to the project NuGetPackage: **IUnitOfWorkVH** latest version
+## References
+
+Lib uses:
+- ResultVH NuGet package for returning results from the functions.
+- IUnitOfWorkVH.Abstractions - for base interfaces.
+- Microsoft.EntityFrameworkCore 10.0 - for EF core functionality.
+
+## Note
+
+Repository pattern implementation in this lib been splitted on 2 separate interfaces:
+
+```
+public interface IRepBase<T> where T : class
+{
+    IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, string? include = null, bool asNoTracking = false);
+}
+
+public interface IRep<T> : IRepBase<T> where T : class
+{
+    void Add(T entity);
+    void Remove(T entity);
+}
+```
+
+It was done to simplify the implementation of repositories in the application in case if you need only read-only functionality for some entities (for e.g. CQRS architectures):
+- Read only repositories can be implemented by using only the IRepBase<T> interface.
+- Read/Write repositories can be implemented by using the IRep<T> interface.
 
 ## Usage
 
 1. Define application DB context definition base on DbContext 
 
 ```
+// Entity
+public class YourEntity1
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
+
+// Entity
+public class YourEntity2
+{
+    public int Id { get; set; }
+    public string Description { get; set; }
+}
+
+
 using IUnitOfWorkVH;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,47 +67,50 @@ public class ApplicationDbContext : DbContext
 }
 ```
 
-2. Create files with interfaces and repositories base on your entities
+2. Prepare **local** interfaces and repositories for your entities, which will be used in the application:
+
 ```
-using IUnitOfWorkVH;
+public interface IRepYourEntity1 : IRepBase<YourEntity1>;
 
-/// this repository will have only Get method - perfect for classifiers
-public interface IRepYourEntity1 : IRepBase<YourEntity1>
+public interface IRepYourEntity2 : IRepBase<YourEntity2>
 {
-    // Define additional methods if needed
+    // place here additional properties or methods if needed
 }
 
-/// this repository will have Get/Add/Remove methods - for general purpose entities
-public interface IRepYourEntity2 : IRep<YourEntity2>
+```
+
+3. Create a new **local** interface that implements the `IUnitOfWorkBase` interface
+
+```
+public interface IUnitOfWork : IUnitOfWorkBase
 {
-    // Define additional methods if needed
+    // dont forget to put your local interfaces here as properties
+    IRepYourEntity1 YourEntityRep1 { get; }
+    IRepYourEntity2 YourEntityRep2 { get; }
+
+    // place here additional properties or methods if needed
 }
 
-///.....
+```
 
+4. Prepare repository classes: create file/s with interfaces and repositories base on your entities
+
+```
 public class RepYourEntity1(ApplicationDbContext context) : RepBase<ApplicationDbContext, YourEntity1>(context), IRepYourEntity1
 public class RepYourEntity2(ApplicationDbContext context) : RepBase<ApplicationDbContext, YourEntity2>(context), IRepYourEntity2
 ```
 
-3. Define local interface IUnitOfWork and inherit from the IUnitOfWorkBase interface
 
-```
-using IUnitOfWorkVH;
-public interface IUnitOfWork : IUnitOfWorkBase<ApplicationDbContext>
-{
-    // Define additional methods or properties if needed
-    IRepYourEntity1 YourEntityRep1 { get; }
-    IRepYourEntity2 YourEntityRep2 { get; }
-}
-```
-
-4. Create class UnitOfWork and inherit from the UnitOfWorkAbstract class and your local IUnitOfWork interface
+5. Create class UnitOfWork and inherit from the UnitOfWorkAbstract class and your **local** IUnitOfWork interface
 
 Don't forget initialize base._ctx [Required] and base._logger [Optional] in the constructor
 
 ```
-public class UnitOfWork : UnitOfWorkAbstract<ApplicationDbContext>
+public class UnitOfWork : UnitOfWorkAbstract<ApplicationDbContext>, IUnitOfWork
 {
+    IRepYourEntity1 YourEntityRep1 { get; }
+    IRepYourEntity2 YourEntityRep2 { get; }
+
     public UnitOfWork(ApplicationDbContext context, ILogger<ApplicationDbContext> logger) : base(context)
     {
         /// Required initializations
@@ -78,11 +123,11 @@ public class UnitOfWork : UnitOfWorkAbstract<ApplicationDbContext>
     }
 
     // Implement additional methods or properties if needed
-    // Define additional methods or properties if needed
-    IRepYourEntity1 YourEntityRep1 { get; }
-    IRepYourEntity2 YourEntityRep2 { get; }
+    // Define additional methods or properties if needed  
 }
 ```
+
+6. Enjoy of use of the UnitOfWork class in your application.
 
 ## Added few **protected virtual** methods for SaveChanges/SaveChangesAsync functions
 

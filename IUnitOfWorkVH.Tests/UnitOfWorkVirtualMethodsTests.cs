@@ -10,9 +10,8 @@ namespace IUnitOfWorkVH.Tests
             public int Id { get; set; }
         }
 
-        private class TestDbContext : DbContext
+        private class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
         {
-            public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
             public DbSet<DummyEntity> Dummies { get; set; } = null!;
         }
 
@@ -90,7 +89,7 @@ namespace IUnitOfWorkVH.Tests
             uow = new TestUnitOfWorkBase(ctx);
 
             // Act
-            var result = await uow.SaveChangesAsync();
+            var result = await uow.SaveChangesAsync(CancellationToken.None);
 
             // Assert: Because base BeforeSaveAsync/AfterSaveAsync call the sync methods,
             // the sync overrides should be invoked for SaveChangesAsync as well.
@@ -108,7 +107,7 @@ namespace IUnitOfWorkVH.Tests
             var uow = new TestUnitOfWorkBase(ctx);
 
             // Act
-            var result = await uow.SaveChangesAsync();
+            var result = await uow.SaveChangesAsync(CancellationToken.None);
 
             // Assert: async overrides should have been called
             Assert.True(uow.BeforeAsyncCalled, "BeforeSaveAsync() override should be called by SaveChangesAsync().");

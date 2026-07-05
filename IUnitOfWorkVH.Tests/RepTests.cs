@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IUnitOfWorkVH.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using IUnitOfWorkVH.Implementations;
-using IUnitOfWorkVH.Interfaces;
 
 namespace IUnitOfWorkVH.Tests
 {

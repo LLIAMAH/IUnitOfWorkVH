@@ -5,14 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <PackageId>IUnitOfWorkVH</PackageId>
-    <Version>10.0.2</Version>
-    <AssemblyVersion>10.0.2.0</AssemblyVersion>
-    <FileVersion>10.0.2.0</FileVersion>
+    <PackageId>IUnitOfWorkVH.Abstractions</PackageId>
+    <Version>10.0.0</Version>
+    <AssemblyVersion>10.0.0.0</AssemblyVersion>
+    <FileVersion>10.0.0.0</FileVersion>
     <Authors>Vasiliy Himchenko</Authors>
     <Company>Free Agent</Company>
     <Description>
-      EF Core implementation of Unit of Work and Repository pattern with base Repos (IRepBase/RepBase - get-only; IRep/Rep - get/add/remove) for EFCore 10.0.
+      Interfaces and abstractions for Unit of Work and Repository pattern for EFCore 10.0.
     </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/LLIAMAH/IUnitOfWorkVH</RepositoryUrl>
@@ -32,11 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     <PackageReference Include="ResultsVH" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\IUnitOfWorkVH.Abstractions\IUnitOfWorkVH.Abstractions.csproj" />
-  </ItemGroup>
 </Project>
