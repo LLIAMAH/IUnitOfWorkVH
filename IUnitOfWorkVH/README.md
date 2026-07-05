@@ -3,6 +3,7 @@
 ## Description
 
 Define application or class library, which will extend the base of the implemented Unit of Work pattern.
+The basic idea of this library is to provide a set of abstractions that can be used in the application to implement the Repository and Unit of Work patterns without having to write boilerplate code.
 
 ## References
 
