@@ -4,12 +4,10 @@ name: Build, Test and Publish NuGet
 on:
   push:
     branches:
-      - develop
       - master
 
   pull_request:
     branches:
-      - develop
       - master
 
   release:
