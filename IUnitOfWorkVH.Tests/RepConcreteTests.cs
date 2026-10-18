@@ -7,7 +7,7 @@ namespace IUnitOfWorkVH.Tests
     public class RepConcreteTests
     {
         [Fact]
-        public void RepShopItems_Add_and_Get_work_with_inmemory_db()
+        public void RepShopItems_Add_and_Get_work_with_in_memory_db()
         {
             var dbName = "rep_items_add_get_" + Guid.NewGuid();
             var options = new DbContextOptionsBuilder<TestDbContext>().UseInMemoryDatabase(dbName).Options;
@@ -23,7 +23,11 @@ namespace IUnitOfWorkVH.Tests
             var save = uow.SaveChanges();
             Assert.True(save.IsSuccess);
 
-            var all = repItems.Get().ToList();
+            var all = repItems.Get(
+                filter: null,
+                include: null,
+                asNoTracking: false
+            ).ToList();
             Assert.Single(all);
             Assert.Equal("Item1", all[0].Name);
         }
@@ -45,7 +49,10 @@ namespace IUnitOfWorkVH.Tests
             repItems.Add(item2);
             Assert.True(uow.SaveChanges().IsSuccess);
 
-            var allBefore = repItems.Get().ToList();
+            var allBefore = repItems.Get(
+                filter: null,
+                include: null,
+                asNoTracking: false).ToList();
             Assert.Equal(2, allBefore.Count);
 
             // remove one
@@ -53,7 +60,10 @@ namespace IUnitOfWorkVH.Tests
             repItems.Remove(toRemove);
             Assert.True(uow.SaveChanges().IsSuccess);
 
-            var allAfter = repItems.Get().ToList();
+            var allAfter = repItems.Get(
+                filter: null,
+                include: null,
+                asNoTracking: false).ToList();
             Assert.Single(allAfter);
             Assert.Equal("ItemB", allAfter[0].Name);
         }
@@ -77,7 +87,10 @@ namespace IUnitOfWorkVH.Tests
             Assert.Single(apples);
             Assert.Equal("Apple", apples[0].Name);
 
-            var noTracking = repItems.Get(asNoTracking: true).ToList();
+            var noTracking = repItems.Get(
+                filter: null,
+                include: null,
+                asNoTracking: true).ToList();
             Assert.Equal(2, noTracking.Count);
         }
     }
