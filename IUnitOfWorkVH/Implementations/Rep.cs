@@ -11,7 +11,8 @@ public class RepBase<TCtx, T>(TCtx ctx) : IRepBase<T>
     protected readonly TCtx _ctx = ctx;
     protected readonly DbSet<T> _dbSet = ctx.Set<T>();
 
-    public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, string? include = null,
+    public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null,
+        string? include = null,
         bool asNoTracking = false)
     {
         IQueryable<T> query = _dbSet;
@@ -24,6 +25,20 @@ public class RepBase<TCtx, T>(TCtx ctx) : IRepBase<T>
 
         if (filter != null)
             query = query.Where(filter);
+
+        return query;
+    }
+
+    public IQueryable<T> Get(
+        Func<IQueryable<T>, IQueryable<T>>? queryPredicate = null,
+        bool asNoTracking = false)
+    {
+        IQueryable<T> query = _dbSet;
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        if (queryPredicate != null)
+            query = queryPredicate(query);
 
         return query;
     }
