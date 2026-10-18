@@ -20,7 +20,6 @@ Repository pattern implementation in this lib been splitted on 2 separate interf
 public interface IRepBase<T> where T : class
 {
     IQueryable<T> Get(string? include = null, Expression<Func<T, bool>>? filter = null, bool asNoTracking = false);
-
     IQueryable<T> Get(Func<IQueryable<T>, IQueryable<T>>? queryPredicate = null, bool asNoTracking = false);
 }
 
