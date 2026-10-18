@@ -12,10 +12,14 @@ namespace IUnitOfWorkVH.Tests
             var iRepBase = typeof(IRepBase<>);
             Assert.True(iRepBase.IsInterface);
 
-            var getMethod = iRepBase.GetMethod("Get");
-            Assert.NotNull(getMethod);
-            Assert.Equal("Get", getMethod.Name);
-            Assert.True(getMethod.ReturnType.IsGenericType);
+            var getMethods = iRepBase.GetMethods().Where(m => m.Name == "Get").ToArray();
+            // There are two overloads of Get: one accepting an include string and one accepting an include Func
+            Assert.True(getMethods.Length >= 2);
+            foreach (var getMethod in getMethods)
+            {
+                Assert.Equal("Get", getMethod.Name);
+                Assert.True(getMethod.ReturnType.IsGenericType);
+            }
         }
 
         [Fact]

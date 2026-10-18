@@ -6,8 +6,7 @@ public interface IRepBase<T> where T : class
 {
     IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, string? include = null, bool asNoTracking = false);
 
-    IQueryable<T> Get(
-        Expression<Func<T, bool>>? filter, Func<IQueryable<T>, IQueryable<T>> include, bool asNoTracking = false);
+    IQueryable<T> Get(Func<IQueryable<T>, IQueryable<T>>? queryPredicate = null, bool asNoTracking = false);
 }
 
 public interface IRep<T> : IRepBase<T> where T : class
