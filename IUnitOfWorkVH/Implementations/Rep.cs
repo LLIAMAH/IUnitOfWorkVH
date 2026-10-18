@@ -27,6 +27,23 @@ public class RepBase<TCtx, T>(TCtx ctx) : IRepBase<T>
 
         return query;
     }
+
+    public IQueryable<T> Get(
+        Expression<Func<T, bool>>? filter,
+        Func<IQueryable<T>, IQueryable<T>> include,
+        bool asNoTracking = false)
+    {
+        IQueryable<T> query = _dbSet;
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        query = include(query);
+
+        if (filter is not null)
+            query = query.Where(filter);
+
+        return query;
+    }
 }
 
 public class Rep<TCtx, T>(TCtx ctx) : RepBase<TCtx, T>(ctx), IRep<T>
