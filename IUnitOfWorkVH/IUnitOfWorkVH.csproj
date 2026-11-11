@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
     <PackageId>IUnitOfWorkVH</PackageId>
-    <Version>10.0.7</Version>
-    <AssemblyVersion>10.0.7.0</AssemblyVersion>
-    <FileVersion>10.0.7.0</FileVersion>
+    <Version>11.0.0</Version>
+    <AssemblyVersion>11.0.0.0</AssemblyVersion>
+    <FileVersion>11.0.0.0</FileVersion>
     <Authors>Vasiliy Himchenko</Authors>
     <Company>Free Agent</Company>
     <Description>
-      EF Core implementation of Unit of Work and Repository pattern with base Repos (IRepBase/RepBase - get-only; IRep/Rep - get/add/remove) for EFCore 10.0.
+      EF Core implementation of Unit of Work and Repository pattern with base Repos (IRepBase/RepBase - get-only; IRep/Rep - get/add/remove) for EFCore 11.0.
     </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/LLIAMAH/IUnitOfWorkVH</RepositoryUrl>
