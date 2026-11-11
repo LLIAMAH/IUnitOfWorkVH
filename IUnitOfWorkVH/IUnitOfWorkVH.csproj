@@ -6,9 +6,9 @@
     <Nullable>enable</Nullable>
 
     <PackageId>IUnitOfWorkVH</PackageId>
-    <Version>11.0.2</Version>
-    <AssemblyVersion>11.0.2.0</AssemblyVersion>
-    <FileVersion>11.0.2.0</FileVersion>
+    <Version>11.0.3</Version>
+    <AssemblyVersion>11.0.3.0</AssemblyVersion>
+    <FileVersion>11.0.3.0</FileVersion>
     <Authors>Vasiliy Himchenko</Authors>
     <Company>Free Agent</Company>
     <Description>
