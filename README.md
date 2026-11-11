@@ -23,7 +23,7 @@ This library is a set of interfaces that are needed to simplify the formation of
 
 Lib uses:
 - ResultVH NuGet package for returning results from the functions.
-- Microsoft.EntityFrameworkCore.Relational 10.0 - cause of used IDbContextTransaction which needed for BeginTransaction() method.
+- Microsoft.EntityFrameworkCore.Relational 11.0 - cause of used IDbContextTransaction which needed for BeginTransaction() method.
 
 ### Content for Repositories
 

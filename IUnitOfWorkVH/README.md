@@ -10,7 +10,7 @@ The basic idea of this library is to provide a set of abstractions that can be u
 Lib uses:
 - ResultVH NuGet package for returning results from the functions.
 - IUnitOfWorkVH.Abstractions - for base interfaces.
-- Microsoft.EntityFrameworkCore 10.0 - for EF core functionality.
+- Microsoft.EntityFrameworkCore 11.0 - for EF core functionality.
 
 ## Note
 
